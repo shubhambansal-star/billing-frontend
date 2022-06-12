@@ -1,0 +1,30 @@
+{
+  "loading": false,
+  "id": 0,
+  "name": "abc",
+  "address": "House no 27",
+  "gstin": "06AAACL0259K1ZL",
+  "state": "Uttar Pradesh",
+  "state_code": "9",
+  "bill_type": "MandiIn",
+  "bill_info": "bill_to_ship_to",
+  "expense": {
+    "tulai": "1",
+    "dharmada": "1",
+    "wages": "1",
+    "mandi_shulk": "1",
+    "vikas_shulk": "1",
+    "others": "1",
+    "commision": "1",
+    "loading_charges": "1",
+    "bardana": "1",
+    "sutli": "1"
+  },
+  "ship_details": {
+    "name": "abc",
+    "address": "House no 27",
+    "gstin": "06AAACL0259K1ZL",
+    "state": "Uttar Pradesh",
+    "state_code": "9"
+  }
+}
