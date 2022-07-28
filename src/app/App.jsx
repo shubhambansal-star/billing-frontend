@@ -1,12 +1,9 @@
-import "../fake-db";
 import React, { Suspense } from "react";
 import "../styles/app/app.scss";
-
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import AppContext from "./appContext";
 import history from "@history";
-
 import routes from "./RootRoutes";
 import { Store } from "./redux/Store";
 import { renderRoutes } from "react-router-config";

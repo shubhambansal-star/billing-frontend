@@ -50,6 +50,7 @@
     "react-dom": "^17.0.2",
     "react-easy-crop": "^3.5.2",
     "react-highlight.js": "^1.0.7",
+    "react-hook-form-input": "^1.1.10",
     "react-html-parser": "^2.0.2",
     "react-icons": "^3.8.0",
     "react-image-crop": "^9.0.3",
@@ -64,7 +65,9 @@
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.3.0",
+    "react-select": "^5.4.0",
     "react-step-wizard": "^5.3.0",
+    "react-stepper-horizontal": "^1.0.11",
     "react-tag-input": "^6.4.1",
     "react-vis": "^1.11.7",
     "reactour": "^1.18.6",
@@ -82,7 +85,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "aws s3 sync build/ s3://skrkmkbils"
   },
   "eslintConfig": {
     "extends": "react-app"

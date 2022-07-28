@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { getAllInvoicebyCompany, deleteInvoice } from "./InvoiceService";
 import swal from "sweetalert2";
 import ReactPaginate from "react-paginate";
+import moment from "moment";
 
 class InvoiceList extends Component {
   state = {
@@ -10,6 +11,7 @@ class InvoiceList extends Component {
     shouldShowConfirmationDialog: false,
     pageNumber: 0,
     billperpage:1,
+    change: false,
     year: "2021-2022",
     count: null,
   };
@@ -33,27 +35,34 @@ class InvoiceList extends Component {
     this.setState({year:data.target.value})
   }
   componentDidMount() {
-    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber, this.props.year, this.props.search).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber, this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
   }
   componentDidUpdate(prevProps, prevState) {
   if (prevState.pageNumber !== this.state.pageNumber) {
-    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+  }
+  if (prevState.change !== this.state.change) {
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
   }
   if (prevState.billperpage !== this.state.billperpage) {
-    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search).then(res => this.setState({ invoiceList: res.data.results, count:res.data.count }));
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count:res.data.count }));
   }
   if (prevProps.year !== this.props.year) {
-    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
   }
   if (prevProps.search !== this.props.search) {
-    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+  }
+  if (prevProps.start_date !== this.props.start_date) {
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
+  }
+  if (prevProps.end_date !== this.props.end_date) {
+    getAllInvoicebyCompany(this.props.companyId,this.billperpage,this.pageNumber,this.props.year, this.props.search,this.props.start_date,this.props.end_date).then(res => this.setState({ invoiceList: res.data.results, count: res.data.count }));
   }
 }
 
   handeViewClick = invoiceId => {
-    console.log(invoiceId)
-
-    this.props.history.push(`/invoice/${invoiceId}`);
+    this.props.history.push(`/invoice/invoice/${invoiceId}`);
   };
 
   handleDeleteInvoice = invoice => {
@@ -67,7 +76,7 @@ class InvoiceList extends Component {
       });
 
       this.setState({
-        invoiceList: res.data,
+        change: !this.state.change,
         shouldShowConfirmationDialog: false
       });
     });
@@ -101,7 +110,7 @@ class InvoiceList extends Component {
                     {invoice.invoice_no}
                   </td>
                   <td className="pl-0 capitalize" align="left">
-                    {invoice.date}
+                    {moment(new Date(invoice.date)).format("DD-MMM-YYYY")}
                   </td>
                   <td className="pl-0 capitalize" align="left">
                     {invoice.vehicle_no}
@@ -141,7 +150,7 @@ class InvoiceList extends Component {
                           })
                           .then(result => {
                             if (result.value) {
-                              this.handleDeleteInvoice(invoice);
+                              this.handleDeleteInvoice(invoice.id);
                             }
                           });
                       }}

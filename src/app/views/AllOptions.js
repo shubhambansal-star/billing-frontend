@@ -1,15 +1,14 @@
-import React from "react";
-export const GenesGroup =  [
-      { label: "Maize", value: "maize" },
-      { label: "Paddy", value: "paddy" },
-      { label: "Paddy Sugandh", value: "paddy sugandh" },
-      { label: "Paddy Sarbati", value: "paddy sarbati" },
-      { label: "Paddy 1509", value: "paddy 1509" },
-      { label: "Paddy RS10", value: "paddy RS10" },
-      { label: "Paddy 1121", value: "paddy 1121" },
-      { label: "Bajra", value: "bajra" },
-      { label: "Wheat", value: "wheat" },
-      { label: "Mustard Seeds", value: "mustard_seed" },
+export const GenesGroup = [
+      { label: "Maize", value: "maize", val: "genes" },
+      { label: "Paddy", value: "paddy", val: "genes" },
+      { label: "Paddy Sugandh", value: "paddy sugandh", val: "genes" },
+      { label: "Paddy Sarbati", value: "paddy sarbati", val: "genes" },
+      { label: "Paddy 1509", value: "paddy 1509", val: "genes" },
+      { label: "Paddy RS10", value: "paddy RS10", val: "genes" },
+      { label: "Paddy 1121", value: "paddy 1121", val: "genes" },
+      { label: "Bajra", value: "bajra", val: "genes" },
+      { label: "Wheat", value: "wheat", val: "genes" },
+      { label: "Mustard Seeds", value: "mustard_seed", val: "genes" },
 ]
 export const StateGroup = [
       { label: "Andhra Pradesh", value: 37 },

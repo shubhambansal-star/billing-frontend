@@ -1,30 +1,21 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import dashboardRoutes from "./views/dashboard/dashboardRoutes";
-import uiKitsRoutes from "./views/ui-kits/uiKitsRoutes";
-import formsRoutes from "./views/forms/formsRoutes";
 import sessionsRoutes from "./views/sessions/sessionsRoutes";
 import AuthGuard from "./auth/AuthGuard";
-import widgetsRoute from "./views/widgets/widgetsRoute";
-import chartsRoute from "./views/charts/chartsRoute";
-import dataTableRoute from "./views/dataTable/dataTableRoute";
-import extraKitsRoutes from "./views/extra-kits/extraKitsRoutes";
-import pagesRoutes from "./views/pages/pagesRoutes";
-import iconsRoutes from "./views/icons/iconsRoutes";
 import invoiceRoutes from "./views/app/invoice/invoiceRoutes";
-import inboxRoutes from "./views/app/inbox/inboxRoutes";
-import chatRoutes from "./views/app/chat/chatRoutes";
-import calendarRoutes from "./views/app/calendar/calendarRoutes";
-import taskManagerRoutes from "./views/app/task-manager/taskManagerRoutes";
-import ecommerceRoutes from "./views/app/ecommerce/ecommerceRoutes";
-import contactRoutes from "./views/app/contact/contactRoutes";
 import companyRoutes from "./views/componentss/company/companyRoutes"
 import partyRoutes from "./views/componentss/party/PartyRoutes"
+import brokerRoutes from "./views/componentss/orders/broker/BrokerRoutes"
+import orderPartyRoutes from "./views/componentss/orders/party/PartyRoutes"
+import salesOrderRoutes from "./views/componentss/orders/salesOrder/SalesOrderRoutes"
+import purchaseOrderRoutes from "./views/componentss/orders/purchase/PurchaseOrderRoutes"
+import LoadingRoutes from "./views/componentss/orders/loading/LoadingRoutes";
+import unloadingRoutes from "./views/componentss/orders/unloading/UnloadingRoutes";
 const redirectRoute = [
   {
     path: "/",
     exact: true,
-    component: () => <Redirect to="/dashboard/v2" />
+    component: () => <Redirect to="/invoice/invoice/create" />
   }
 ];
 
@@ -40,24 +31,15 @@ const routes = [
     path: "/",
     component: AuthGuard,
     routes: [
-      ...dashboardRoutes,
-      ...uiKitsRoutes,
-      ...formsRoutes,
-      ...widgetsRoute,
-      ...chartsRoute,
-      ...dataTableRoute,
-      ...extraKitsRoutes,
-      ...pagesRoutes,
-      ...iconsRoutes,
       ...invoiceRoutes,
-      ...inboxRoutes,
-      ...chatRoutes,
-      ...taskManagerRoutes,
-      ...calendarRoutes,
-      ...ecommerceRoutes,
-      ...contactRoutes,
       ...companyRoutes,
       ...partyRoutes,
+      ...brokerRoutes,
+      ...salesOrderRoutes,
+      ...LoadingRoutes,
+      ...unloadingRoutes,
+      ...orderPartyRoutes,
+      ...purchaseOrderRoutes,
       ...redirectRoute,
       ...errorRoute
     ]

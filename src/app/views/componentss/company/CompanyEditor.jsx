@@ -47,14 +47,13 @@ this.setState({ id });
 };
 
 handleSubmit = (values, { setSubmitting }) => {
-  console.log("hey its me")
 let { id } = this.state;
 this.setState({ loading: true });
 setSubmitting(true);
 if (this.props.isNewCompany){
 addCompany( values ).then((res) => {
 this.setState({ loading: false });
-this.props.history.push(`/company/${res.data.id}`);
+this.props.history.push(`/invoice/company/${res.data.id}`);
 this.props.toggleCompanyEditor();
 });}else{
 updateCompany(id,values).then(() => {
@@ -92,7 +91,7 @@ return (
             <div className="justify-content-end">
               <div className="mb-4">
                 <Button type="button" className="me-3 py-2" variant="warning" onClick={()=>
-                  this.props.history.push('/company/list')}
+                  this.props.history.push('/invoice/company/list')}
                   tabIndex={12}
                   >
                   Cancel

@@ -1,17 +1,19 @@
-import { lazy } from "react";
-
-const InvoiceDetails = lazy(() => import("./InvoiceDetails"));
-const InvoiceListTab = lazy(()=>import("./InvoiceListWithTab"))
+import InvoiceDetails from "./InvoiceDetails"
+import InvoiceListTab from "./InvoiceListWithTab"
 
 const invoiceRoutes = [
   {
-    path: "/invoice/list",
+    path: "/invoice/invoice/list",
     component: InvoiceListTab
   },
   {
-    path: "/invoice/:id",
+    path: "/invoice/invoice/:id(\\d+)",
     component: InvoiceDetails
-  }
+  },
+  {
+    path: "/invoice/invoice/:id(create)",
+    component: InvoiceDetails
+  },
 ];
 
 export default invoiceRoutes;

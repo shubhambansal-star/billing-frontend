@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { Button, Tab, Tabs, Row, Col,Card } from "react-bootstrap";
+import { Button, Row, Col,Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PartyList from "./PartyList"
 
 class PartyListTab extends Component {
   state = {
-    invoiceList: [],
-    partyList: [],
     search: "",
     search_s: ""
   };
@@ -28,7 +26,6 @@ class PartyListTab extends Component {
     }
   }
   render() {
-    let { invoiceList, partyList } = this.state;
     return (
       <Row>
             <Col>
@@ -53,7 +50,7 @@ class PartyListTab extends Component {
                   <div className="col-md-2">
                     <div className="justify-content-end">
                       <div className="mb-4">
-                        <Link to="/party/create">
+                        <Link to="/invoice/party/create">
                           <Button className="mb-3" variant="primary">
                             Add Party
                           </Button>

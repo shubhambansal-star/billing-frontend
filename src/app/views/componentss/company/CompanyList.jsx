@@ -3,7 +3,6 @@ import { Table, Button, Card, Row, Col } from "react-bootstrap";
 import { getAllCompany, deleteCompany } from "./CompanyService";
 import { Link } from "react-router-dom";
 import swal from "sweetalert2";
-
 class CompanyList extends Component {
   state = {
     companyList: [],
@@ -15,8 +14,14 @@ class CompanyList extends Component {
   }
 
   handeViewClick = companyId => {
-    this.props.history.push(`/company/${companyId}`);
+    this.props.history.push(`/invoice/company/${companyId}`);
   };
+
+  componentDidUpdate(prevProps, prevState) {
+  if (prevState.change !== this.state.change) {
+    getAllCompany().then(res => this.setState({ companyList: res.data }));
+  }
+}
 
   handleDeleteInvoice = invoice => {
     deleteCompany(invoice).then(res => {
@@ -29,7 +34,7 @@ class CompanyList extends Component {
       });
 
       this.setState({
-        companyList: res.data,
+        change: !this.state.change,
         shouldShowConfirmationDialog: false
       });
     });
@@ -112,7 +117,7 @@ class CompanyList extends Component {
                           })
                           .then(result => {
                             if (result.value) {
-                              this.handleDeleteInvoice(company);
+                              this.handleDeleteInvoice(company.id);
                             }
                           });
                       }}

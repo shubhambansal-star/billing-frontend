@@ -4,15 +4,16 @@ import { Link } from "react-router-dom";
 import { getInvoiceById, getBillById } from "./InvoiceService";
 import { format } from "date-fns";
 import { withRouter } from "react-router-dom";
-import print from 'print-js'
 class InvoiceViewer extends Component {
   state = {};
   subTotalCost = 0
   componentDidMount() {
+    if(this.props.match.params.id!=="create"){
     getInvoiceById(this.props.match.params.id).then((res) => {
       this.setState({ bill: res.data, billitem: res.data.billitems });
     });
   }
+}
 
   render() {
     this.subTotalCost = 0;
@@ -20,20 +21,28 @@ class InvoiceViewer extends Component {
     return (
       <div className="invoice-viewer py-16">
         <div className="viewer_actions px-3 mb-3 d-flex align-items-center justify-content-between">
-          <Link to="/invoice/list">
+          <Link to="/invoice/invoice/list">
             <i className="i-Left1 text-20 font-weight-700"> </i>
           </Link>
           <div>
             <Button
-              className="mr-3 py-2"
+              className="me-3 mr-3 py-2"
               variant="primary"
               onClick={() => this.props.toggleInvoiceEditor()}
             >
               Edit Invoice
             </Button>
+            <Button 
+              type="button" 
+              className="me-3 mr-3 py-2" 
+              variant="secondary" 
+              onClick={()=>{this.props.history.push('/invoice/invoice/create')}}
+            >
+              Create Invoice
+            </Button>
             <Button
-              onClick={() => getBillById(this.props.match.params.id).then((res)=>{print("http://127.0.0.1:8000/media/invoices/invoice.pdf")})}
-              className="py-2"
+              onClick={() => getBillById(this.props.match.params.id).then((res)=>{window.open("http://skrkmk.in/media/invoices/invoice.pdf")})}
+              className="mr-3 py-2"
               variant="warning"
             >
               Print Invoice
@@ -65,7 +74,6 @@ class InvoiceViewer extends Component {
           <div className="row mb-2">
             <div className="col-md-6 mb-3 mb-sm-0">
               <h5><strong>Bill To</strong></h5>
-              <p>
                 <div>
                 <strong>Name :- &nbsp; </strong>{this.state?.bill?.bill_tos ? this.state?.bill?.bill_tos.name : null}
                 </div>
@@ -78,11 +86,9 @@ class InvoiceViewer extends Component {
                 <div>
                 <strong>State :- &nbsp; </strong>{this.state?.bill?.bill_tos ? this.state?.bill?.bill_tos.state : null}<strong> &nbsp; State Code :- </strong>{this.state?.bill?.bill_tos  ? this.state?.bill?.bill_tos.state_code : null}
                 </div>
-                </p>
             </div>
             <div className="col-md-6 text-sm-right">
               <h5><strong>Ship To</strong></h5>
-              <p>
                 <div>
                 <strong>Name :- &nbsp; </strong>{this.state?.bill?.bill_tos ? this.state?.bill?.bill_tos.ship_details.name : null}
                 </div>
@@ -95,7 +101,6 @@ class InvoiceViewer extends Component {
                 <div>
                 <strong>State :- &nbsp; </strong>{this.state?.bill?.bill_tos ? this.state?.bill?.bill_tos.ship_details.state : null}<strong> &nbsp; State Code :- </strong>{this.state?.bill?.bill_tos  ? this.state?.bill?.bill_tos.ship_details.state_code : null}
                 </div>
-                </p>
             </div>
           </div>
           <div className="row">
@@ -146,11 +151,11 @@ class InvoiceViewer extends Component {
                   </thead>
                   <tbody>
                     <tr>
-                    <td>{this.state?.bill?.expenses.loading_charges*400}</td>
-                    <td>{this.state?.bill?.expenses.dharmada*this.subTotalCost/100}</td>
-                    <td>{this.state?.bill?.expenses.tulai*this.subTotalCost/100}</td>
-                    <td>{this.state?.bill?.expenses.wages*300}</td>
-                    <td>{this.state?.bill?.expenses.commision*this.subTotalCost/100}</td>
+                    <td>{this.state?.bill?.total_exp.loading_charges}</td>
+                    <td>{this.state?.bill?.total_exp.dharmada}</td>
+                    <td>{this.state?.bill?.total_exp.tulai}</td>
+                    <td>{this.state?.bill?.total_exp.wages}</td>
+                    <td>{this.state?.bill?.total_exp.commision}</td>
                     <th></th>
                     <th align="right">Frieght</th>
                     <td>{this.state?.bill?.frieght}</td>
@@ -164,17 +169,17 @@ class InvoiceViewer extends Component {
                       <th></th>
                       <th align="right">Expense Total</th>
 
-                      <td>{this.subTotalCost}</td>
+                      <td>{this.state?.bill?.total_exp.total_expenses}</td>
                     </tr>
                     <tr>
-                    <td>{this.state?.bill?.expenses.mandi_shulk*this.subTotalCost/100}</td>
-                    <td>{this.state?.bill?.expenses.vikas_shulk*this.subTotalCost/100}</td>
-                    <td>{this.state?.bill?.expenses.sutli*400}</td>
-                    <td>{this.state?.bill?.expenses.bardana*400}</td>
-                    <td>{this.state?.bill?.expenses.others}</td>
+                    <td>{this.state?.bill?.total_exp.mandi_shulk}</td>
+                    <td>{this.state?.bill?.total_exp.vikas_shulk}</td>
+                    <td>{this.state?.bill?.total_exp.sutli}</td>
+                    <td>{this.state?.bill?.total_exp.bardana}</td>
+                    <td>{this.state?.bill?.total_exp.others}</td>
                     <th></th>
                     <th align="right">GRAND TOTAL</th>
-                    <th>{this.subTotalCost+this.subTotalCost}</th>
+                    <th>{this.state?.bill?.total_exp.grand_total}</th>
                     </tr>
                   </tbody>
                 </table>

@@ -3,6 +3,8 @@ import { Button, Tab, Tabs, Row, Col,Card } from "react-bootstrap";
 import { getAllCompany } from "./InvoiceService";
 import { Link } from "react-router-dom";
 import InvoiceList from "./InvoiceList"
+import DatePicker from "react-datepicker";
+import { addDays } from "date-fns";
 
 class InvoiceListTab extends Component {
   state = {
@@ -34,7 +36,7 @@ class InvoiceListTab extends Component {
     }
   }
   render() {
-    let { invoiceList, partyList } = this.state;
+    let { partyList } = this.state;
     return (
       <Row>
             <Col>
@@ -43,7 +45,7 @@ class InvoiceListTab extends Component {
                   <div className="col-md-2">
                     <h4 className="fw-bold">Invoice List</h4>
                   </div>
-                  <div className="col-md-2">
+                  <div className="col-md-2 mb-2">
                     <select
                       id="picker1"
                       className="form-control"
@@ -55,7 +57,7 @@ class InvoiceListTab extends Component {
                       <option value="/2022-2023/">2022-2023</option>
                     </select>
                   </div>
-                  <div className="col-md-3">
+                  <div className="col-md-2 mb-2">
                     <input
                       className="form-control"
                       id="search"
@@ -68,10 +70,36 @@ class InvoiceListTab extends Component {
                       value={this.search}
                     />
                   </div>
+                  <div className="col-md-2 mb-2">
+                    <DatePicker 
+                    isClearable
+                    placeholderText="Start Date.."
+                    className="form-control" 
+                    dateFormat="dd-MMMM-yyyy" 
+                    selected={this.state.date_s? new Date(this.state.date_s): null} 
+                    onChange={(date) => {
+                      const ds = this.state.date_s? date: addDays(date,1)
+                      this.setState({date_s: ds?.toISOString().slice(0, 10)})
+                    }}
+                  />
+                  </div>
+                  <div className="col-md-2 mb-2">
+                    <DatePicker 
+                    isClearable
+                    placeholderText="End Date.."
+                    className="form-control" 
+                    dateFormat="dd-MMMM-yyyy" 
+                    selected={this.state.date_e? new Date(this.state.date_e): null} 
+                    onChange={(date) => {
+                      const ds = this.state.date_e? date: addDays(date,1)
+                      this.setState({date_e: ds?.toISOString().slice(0, 10)})
+                    }}
+                  />
+                  </div>
                   <div className="col-md-2">
                     <div className="justify-content-end">
                       <div className="mb-4">
-                        <Link to="/invoice/create">
+                        <Link to="/invoice/invoice/create">
                           <Button className="mb-3" variant="primary">
                             Add Invoice
                           </Button>
@@ -79,14 +107,23 @@ class InvoiceListTab extends Component {
                       </div>
                     </div>
                   </div>
-                  <Tabs defaultActiveKey={partyList.at(0)} id="uncontrolled-tab-example" unmountOnExit={true} mountOnEnter={true}>
+                  <Tabs style={{overflowX:"auto",overflowY:"hidden",flexWrap:"nowrap", display:"-webkit-box", display:"-moz-box"}} defaultActiveKey={partyList.at(0)} id="fill-tab-example" unmountOnExit={true} mountOnEnter={true}>
+                      <Tab style={{whiteSpace:"nowrap"}} eventKey={0} title={"ALL"} key={0} className="capitalize">
+                        <InvoiceList companyId={0} year={this.state.year} search={this.state.search_s} {...this.props} start_date={this.state.date_s} end_date={this.state.date_e}/>
+                      </Tab>
                       {partyList.map((item,index)=>(
-                          <Tab eventKey={item.id} title={item.name.toUpperCase()} key={item.id} className="capitalize">
-                        <InvoiceList companyId={item.id} year={this.state.year} search={this.state.search_s} {...this.props}/>
+                          <Tab style={{whiteSpace:"nowrap"}} eventKey={item.id} title={item.shortname.toUpperCase()} key={item.id} className="capitalize">
+                        <InvoiceList companyId={item.id} year={this.state.year} search={this.state.search_s} {...this.props} start_date={this.state.date_s} end_date={this.state.date_e}/>
                     </Tab>
                       ))}
+                      <Tab style={{whiteSpace:"nowrap"}}eventKey={"bw"} title={"2ND"} key={"bw"} className="capitalize">
+                        <InvoiceList companyId={"bw"} year={this.state.year} search={this.state.search_s} {...this.props} start_date={this.state.date_s} end_date={this.state.date_e}/>
+                      </Tab>
+                      <Tab style={{whiteSpace:"nowrap"}} eventKey={"canceled"} title={"CANCELED"} key={"canceled"} className="capitalize">
+                        <InvoiceList companyId={"canceled"} year={this.state.year} search={this.state.search_s} {...this.props} start_date={this.state.date_s} end_date={this.state.date_e}/>
+                      </Tab>
                   </Tabs>
-                </div> 
+                  </div>
                 </Card>
             </Col>
             </Row>

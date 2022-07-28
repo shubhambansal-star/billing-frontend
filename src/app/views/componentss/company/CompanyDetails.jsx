@@ -20,6 +20,11 @@ class CompanyDetails extends Component {
     if (this.props.match.params.id === "create")
       this.setState({ showCompanyEditor: true, isNewCompany: true });
   }
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.match.params.id!==this.props.match.params.id)
+      if (this.props.match.params.id === "create")
+        this.setState({ showCompanyEditor: true, isNewCompany: true });
+  }
 
   render() {
     return (

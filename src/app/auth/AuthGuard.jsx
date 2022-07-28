@@ -1,16 +1,18 @@
+//eslint-disable//
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import AppContext from "app/appContext";
 import GullLayout from "app/GullLayout/GullLayout";
 import { flatMap } from "lodash";
+import localStorageService from "app/services/localStorageService";
 class AuthGuard extends Component {
   constructor(props, context) {
     super(props);
     let { routes } = context;
 
     this.state = {
-      authenticated: true,
+      authenticated: false,
       routes
     };
   }
@@ -23,8 +25,9 @@ class AuthGuard extends Component {
         }
         return [item];
       })
-    });
-
+      
+    }
+    );
     if (!this.state.authenticated) {
       this.redirectRoute(this.props);
     }
@@ -41,13 +44,14 @@ class AuthGuard extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { location, user } = props;
+    const { location } = props;
     const { pathname } = location;
+    // eslint-disable-next-line
     const matched = state.routes.find(r => r.path === pathname);
-    const authenticated =
-      matched && matched.auth && matched.auth.length
-        ? matched.auth.includes(user.role)
-        : true;
+    const authenticated = localStorageService.getItem("jwt_token") === null? false:true
+      // matched && matched.auth && matched.auth.length
+      //   ? matched.auth.includes(user.role)
+      //   : true;
     return {
       authenticated
     };

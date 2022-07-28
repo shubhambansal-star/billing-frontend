@@ -8,6 +8,7 @@ class PartyList extends Component {
     partyList: [],
     pageNumber: 0,
     billperpage:1,
+    change: false,
     count: null,
     shouldShowConfirmationDialog: false
   };
@@ -35,6 +36,9 @@ class PartyList extends Component {
     if (prevState.pageNumber !== this.state.pageNumber) {
     getAllParty(this.billperpage,this.pageNumber,this.props.search).then(res => this.setState({ partyList: res.data.results, count: res.data.count }));
   }
+  if (prevState.change !== this.state.change) {
+    getAllParty(this.billperpage,this.pageNumber,this.props.search).then(res => this.setState({ partyList: res.data.results, count: res.data.count }));
+  }
   if (prevState.billperpage !== this.state.billperpage) {
     getAllParty(this.billperpage,this.pageNumber, this.props.search).then(res => this.setState({ partyList: res.data.results, count: res.data.count }));
   }
@@ -44,7 +48,7 @@ class PartyList extends Component {
 }
 
   handeViewClick = companyId => {
-    this.props.history.push(`/party/${companyId}`);
+    this.props.history.push(`/invoice/party/${companyId}`);
   };
 
   handleDeleteInvoice = id => {
@@ -57,7 +61,7 @@ class PartyList extends Component {
         timer: 1500
       });
       this.setState({
-        partyList: res.data,
+        change: !this.state.change,
         shouldShowConfirmationDialog: false
       });
     });

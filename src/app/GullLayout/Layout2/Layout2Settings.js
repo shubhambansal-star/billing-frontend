@@ -1,6 +1,6 @@
 const layout2Settings = {
   leftSidebar: {
-    theme: "sidebar-dark-purple",
+    theme: "sidebar-gradient-steel-gray",
   },
   header: {
     show: true
@@ -8,7 +8,7 @@ const layout2Settings = {
   searchBox: {
     open: false
   },
-  secondarySidebar: { show: false },
+  secondarySidebar: { show: true },
 };
 
 export default layout2Settings;

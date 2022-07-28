@@ -1,13 +1,16 @@
-import { lazy } from "react";
-const PartyDetails = lazy(()=>import("./PartyDetails"))
-const PartyListTab = lazy(()=>import("./PartyListMain"))
+import PartyDetails from "./PartyDetails"
+import PartyListTab from "./PartyListMain"
 const partyRoutes = [
   {
-    path: "/party/list",
+    path: "/invoice/party/list",
     component: PartyListTab
   },
   {
-    path: "/party/:id",
+    path: "/invoice/party/:id(\\d+)",
+    component: PartyDetails
+  },
+  {
+    path: "/invoice/party/:id(create)",
     component: PartyDetails
   }
 ];

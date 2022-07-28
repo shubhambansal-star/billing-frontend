@@ -2,31 +2,28 @@
 import localStorageService from "./localStorageService";
 import axios from "../../axios/axios"
 class JwtAuthService {
-  
-  user = {
-    userId: "1",
-    role: 'ADMIN',
-    displayName: "Watson Joyce",
-    email: "watsonjoyce@gmail.com",
-    photoURL: "/assets/images/face-7.jpg",
-    age: 25,
-    token: "faslkhfh423oiu4h4kj432rkj23h432u49ufjaklj423h4jkhkjh"
-  }
-  // loginWithRESTAPI = (email, password) => {
-  //   return new Promise((resolve,reject)=>{
-
-  //   })
-  // }
 
   loginWithEmailAndPassword = (email, password) => {
-    return axios.post("/api/users/login/",{user:{email:email,password:password}}).then(data => {
-      this.setSession(data.data.user.token);
-      this.setUser(data.data.user);
-      return data.data.user;
+    return axios.post("/api/users/login/", { email: email, password: password }).then(data => {
+      this.setSession(data.data.access);
+      this.setUser(data.data);
+      return data.data;
     });
   };
 
-  
+  loginWithToken = () => {
+    return axios.get("/api/users/check-authentication/")
+      .then(data => {
+        this.setSession(data.data.access)
+        this.setUser(data.data);
+        return data.data
+      })
+      .catch((err) => {
+        return undefined
+      })
+  };
+
+
 
   logout = () => {
     this.setSession(null);
@@ -42,7 +39,7 @@ class JwtAuthService {
       delete axios.defaults.headers.common["Authorization"];
     }
   };
-  setUser = (user) => {    
+  setUser = (user) => {
     localStorageService.setItem("auth_user", user);
   }
   removeUser = () => {

@@ -9,7 +9,6 @@ const initialState = {};
 const userReducer = function(state = initialState, action) {
   switch (action.type) {
     case SET_USER_DATA: {
-      console.log(4)
       return {
         ...state,
         ...action.data

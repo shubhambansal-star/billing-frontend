@@ -5,7 +5,6 @@ import { merge } from "lodash";
 import { classList, isMobile } from "@utils";
 import Srcollbar from "react-perfect-scrollbar";
 import { DropDownMenu } from "@gull";
-
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setLayoutSettings } from "app/redux/actions/LayoutActions";
@@ -16,57 +15,42 @@ class Layout2Sidenav extends Component {
   state = {
     selectedItem: {},
     navOpen: true,
-    secondaryNavOpen: false,
+    secondaryNavOpen: true,
   };
 
   onMainItemMouseEnter = (item) => {
     this.setSelected(item);
   };
-
+  //To-Do
   findSelecteditem = () => {
+    let sub = this.props.history.location.pathname.split("/")[1]
     navigations.forEach((item) => {
-      if (item.sub) {
-        item.sub.forEach((child) => {
-          if (child.sub) {
-            child.sub.forEach((grandChild) => {
-              if (grandChild.path === this.props.history.location.pathname) {
-                this.setSelected(item);
-              }
-            });
-          } else {
-            if (child.path === this.props.history.location.pathname) {
-              this.setSelected(item);
-            }
-          }
-        });
-      } else {
-        if (item.path === this.props.history.location.pathname) {
-          this.setSelected(item);
-        }
+      if (item.open===sub) {
+        this.setSelected(item);
+        
       }
     });
   };
-
   onMainItemMouseLeave = () => {};
 
   setSelected = (selectedItem) => {
     this.setState({ selectedItem });
-    
   };
 
   removeSelected = () => {
     this.setState({ selectedItem: null });
-    
   };
 
+  closeDropDownMenu =() =>{
+    if(isMobile()){
+      this.closeSecNav()
+    }
+  }
   closeSecNav = () => {
-    
     let { setLayoutSettings, settings } = this.props;
     let other = {};
 
-    if (isMobile()) {
-      other.open = false;
-    }
+    other.open = false;
 
     setLayoutSettings(
       merge({}, settings, {
@@ -139,10 +123,9 @@ class Layout2Sidenav extends Component {
                   "nav-item": true,
                   active: item.name === selectedItem.name,
                 })}
-                onMouseEnter={() => {
+                onClick={() => {
                   this.onMainItemMouseEnter(item);
                 }}
-                onMouseLeave={this.onMainItemMouseLeave}
                 key={i}
               >
                 {item.path && item.type !== "extLink" && (
@@ -175,18 +158,20 @@ class Layout2Sidenav extends Component {
             open: settings.layout2Settings.leftSidebar.secondaryNavOpen,
           })}
         >
-          <i className="sidebar-close i-Close" onClick={this.closeSecNav}></i>
-          <div className="logo ml-4 mb-4">
-            <img src="/assets/images/logo-text.png" alt="logo" />
+           
+            <i className="sidebar-close i-Close" onClick={this.closeSecNav} ></i>
+          
+          <div className="ml-4 mb-4">
+            <img src="http://skrkmk.in/static/logo.png" alt="logo" />
           </div>
           <div className="header mb-3 ml-4">
-            <h5 className="font-weight-bold mb-1">{selectedItem.name}</h5>
+            <h5 className="font-weight-bold mb-1"> &nbsp; {selectedItem.name}</h5>
             <p>{selectedItem.description}</p>
           </div>
           {selectedItem && selectedItem.sub && (
             <DropDownMenu
               menu={selectedItem.sub}
-              closeSecSidenav={this.closeSecNav}
+              closeSecSidenav={this.closeDropDownMenu}
             ></DropDownMenu>
           )}
         </Srcollbar>

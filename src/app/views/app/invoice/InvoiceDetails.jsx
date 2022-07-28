@@ -20,7 +20,11 @@ class InvoiceDetails extends Component {
     if (this.props.match.params.id === "create")
       this.setState({ showInvoiceEditor: true, isNewInvoice: true });
   }
-
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.match.params.id!==this.props.match.params.id)
+      if (this.props.match.params.id === "create")
+        this.setState({ showInvoiceEditor: true, isNewInvoice: true });
+  }
   render() {
     return (
       <Card elevation={6} className="invoice-details m-sm-30">

@@ -1,18 +1,12 @@
 import React, { Component, Suspense } from "react";
 import { renderRoutes } from "react-router-config";
-
-import Footer from "../SharedComponents/Footer";
 import Layout2Header from "./Layout2Header";
 import Layout2Sidenav from "./Layout2Sidenav";
-
 import { connect } from "react-redux";
-
 import { classList } from "@utils";
 import { merge } from "lodash";
 import { setLayoutSettings } from "app/redux/actions/LayoutActions";
-import GullSearch from "@gull/components/GullSearch";
 import Loading from "@gull/components/GullLoadable/Loading";
-
 class Layout2 extends Component {
   state = {};
 
@@ -53,13 +47,9 @@ class Layout2 extends Component {
             <Suspense fallback={<Loading />}>
               <div className="main-content">{renderRoutes(routes)}</div>
             </Suspense>
-            <Footer></Footer>
           </div>
         </div>
-        <GullSearch
-          open={settings.layout2Settings.searchBox.open}
-          handleClose={this.handleSearchBoxClose}
-        ></GullSearch>
+        
       </div>
     );
   }

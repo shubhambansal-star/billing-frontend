@@ -69,7 +69,7 @@ setSubmitting(true);
 if (this.props.isNewParty){
 addParty( values ).then((res) => {
 this.setState({ loading: false });
-this.props.history.push(`/party/${res.data.id}`);
+this.props.history.push(`/invoice/party/${res.data.id}`);
 this.props.togglePartyEditor();
 });}else{
 updateParty(id,values).then(() => {
@@ -77,11 +77,6 @@ this.setState({ loading: false });
 this.props.togglePartyEditor();
 });}
 };
-componentDidUpdate(prevProps, prevState) {
-  if (prevState !== this.state) {
-    console.log(this.state)
-  }
-}
 toggleMandiIn = () =>{
   let bill_s = this.state.bill_type==="MandiIn"?"MandiOut":"MandiIn" 
   this.setState({bill_type: bill_s});
@@ -117,7 +112,7 @@ return (
             <div className="justify-content-end">
               <div className="mb-4">
                 <Button type="button" className="me-3 py-2" variant="warning" onClick={()=>
-                  this.props.history.push('/party/list')}
+                  this.props.history.push('/invoice/party/list')}
                   
                   >
                   Cancel
@@ -432,7 +427,7 @@ return (
 const companySchema = yup.object().shape({
   name:yup.string().required(),
   address: yup.string().required(),
-  gstin: yup.string().required().matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, "Please Enter incorrect format"),
+  gstin: yup.string().optional().matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, "Please Enter incorrect format"),
   state: yup.string().required(),
   state_code: yup.number().required(),
   bill_info: yup.string().required(),
@@ -440,7 +435,7 @@ const companySchema = yup.object().shape({
   ship_details:yup.object().shape({
     name:yup.string().required(),
     address: yup.string().required(),
-    gstin: yup.string().required().matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, "Please Enter incorrect format"),
+    gstin: yup.string().optional().matches(/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/, "Please Enter incorrect format"),
     state: yup.string().required(),
     state_code: yup.number().required(),
   }),

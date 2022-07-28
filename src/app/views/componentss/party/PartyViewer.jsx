@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getPartyByID } from "./PartyService";
-import { format } from "date-fns";
 import { withRouter } from "react-router-dom";
 class PartyViewer extends Component {
   state = {};
   subTotalCost = 0
   componentDidMount() {
+    if(this.props.match.params.id!=="create")
     getPartyByID(this.props.match.params.id).then((res) => {
       this.setState({ party: res.data });
     });
@@ -17,7 +17,7 @@ class PartyViewer extends Component {
     return (
       <div className="invoice-viewer py-16">
         <div className="viewer_actions px-3 mb-3 d-flex align-items-center justify-content-between">
-          <Link to="/party/list">
+          <Link to="/invoice/party/list">
             <i className="i-Left1 text-20 font-weight-700"> </i>
           </Link>
           <div>

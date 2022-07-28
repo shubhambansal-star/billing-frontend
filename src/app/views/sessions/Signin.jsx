@@ -4,21 +4,19 @@ import * as yup from "yup";
 import { loginWithEmailAndPassword } from "app/redux/actions/LoginActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 
 const SigninSchema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("email is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()
     .min(8, "Password must be 8 character long")
-    .required("password is required"),
+    .required("Password is required"),
 });
 
 class Signin extends Component {
   state = {
-    email: "watson@example.com",
-    password: "12345678",
+    email: "",
+    password: "",
   };
 
   handleChange = (event) => {
@@ -35,7 +33,7 @@ class Signin extends Component {
       <div
         className="auth-layout-wrap"
         style={{
-          backgroundImage: "url(/assets/images/photo-wide-4.jpg)",
+          backgroundImage: "",
         }}
       >
         <div className="auth-content">
@@ -44,7 +42,7 @@ class Signin extends Component {
               <div className="col-md-6">
                 <div className="p-4">
                   <div className="auth-logo text-center mb-4">
-                    <img src="/assets/images/logo.png" alt="" />
+                    <img src="/logo.png" alt="" />
                   </div>
                   <h1 className="mb-3 text-18">Sign In</h1>
                   <Formik
@@ -72,7 +70,7 @@ class Signin extends Component {
                             onBlur={handleBlur}
                             value={values.email}
                           />
-                          {errors.email && (
+                          {errors.email && touched.email && (
                             <div className="text-danger mt-1 ml-2">
                               {errors.email}
                             </div>
@@ -88,7 +86,7 @@ class Signin extends Component {
                             onBlur={handleBlur}
                             value={values.password}
                           />
-                          {errors.password && (
+                          {errors.password && touched.password && (
                             <div className="text-danger mt-1 ml-2">
                               {errors.password}
                             </div>
@@ -103,36 +101,15 @@ class Signin extends Component {
                       </form>
                     )}
                   </Formik>
-
-                  <div className="mt-3 text-center">
-                    <Link to="/session/forgot-password" className="text-muted">
-                      <u>Forgot Password?</u>
-                    </Link>
-                  </div>
                 </div>
               </div>
               <div
                 className="col-md-6 text-center "
                 style={{
                   backgroundSize: "cover",
-                  backgroundImage: "url(/assets/images/photo-long-3.jpg)",
+                  backgroundImage: "url(/logo512.png)",
                 }}
               >
-                <div className="pe-3 auth-right">
-                  <Link
-                    to="/session/signup"
-                    className="btn btn-rounded btn-outline-primary btn-outline-email w-100 my-1 btn-icon-text"
-                  >
-                    <i className="i-Mail-with-At-Sign"></i> Sign up with Email
-                  </Link>
-
-                  <Button className="btn btn-rounded btn-outline-google w-100 my-1 btn-icon-text">
-                    <i className="i-Google-Plus"></i> Sign up with Google
-                  </Button>
-                  <Button className="btn btn-rounded w-100 my-1 btn-icon-text btn-outline-facebook">
-                    <i className="i-Facebook-2"></i> Sign up with Facebook
-                  </Button>
-                </div>
               </div>
             </div>
           </div>

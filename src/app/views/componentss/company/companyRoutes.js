@@ -1,13 +1,16 @@
-import { lazy } from "react";
-const CompanyDetails = lazy(()=>import("./CompanyDetails"))
-const CompanyList = lazy(()=>import("./CompanyList"))
+import CompanyDetails from "./CompanyDetails"
+import CompanyList from "./CompanyList"
 const companyRoutes = [
   {
-    path: "/company/list",
+    path: "/invoice/company/list",
     component: CompanyList
   },
   {
-    path: "/company/:id",
+    path: "/invoice/company/:id(\\d+)",
+    component: CompanyDetails
+  },
+  {
+    path: "/invoice/company/:id(create)",
     component: CompanyDetails
   }
 ];
